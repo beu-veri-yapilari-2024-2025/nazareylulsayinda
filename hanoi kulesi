@@ -1,0 +1,47 @@
+class program
+{
+    static void Hanoi(int disk,string kaynak,string hedef ,string yardımcı)
+    {
+        if (disk == 1)
+        {
+            Console.WriteLine($"Disk 1:{kaynak}-->{hedef}");
+            return;
+        }
+
+        Hanoi(disk-1,kaynak,yardımcı,hedef );
+
+        Console.WriteLine($"Disk {disk}:{kaynak}-->{hedef}");
+
+        Hanoi(disk - 1, yardımcı, hedef, kaynak);
+
+      
+       
+    }
+
+    static void Main()
+    {
+        int diskSayısı = 3;
+
+        Console.WriteLine("HANOİ KULLERİ BAŞLADI:");
+        Console.WriteLine("--------------------------");
+
+
+        Hanoi(diskSayısı ,"A" , "B", "C");
+
+
+        Console.WriteLine("--------------------------");
+        Console.WriteLine("Tüm diskler başarıyla taşındı.");
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+}
