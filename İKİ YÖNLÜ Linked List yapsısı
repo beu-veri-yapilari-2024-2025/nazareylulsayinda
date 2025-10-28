@@ -1,0 +1,688 @@
+//BAŞA EKLEME
+
+class Node
+{
+    public int veri;
+    public Node onceki;
+    public Node sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void BasaEkle(int sayi)
+    {
+        Node yeni = new Node();
+        yeni.veri = sayi;
+        yeni.sonraki = bas;
+        yeni.onceki = null;
+
+        if (bas != null)
+            bas.onceki = yeni;
+
+        bas = yeni;
+    }
+
+    static void Listele()
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            Console.Write(temp.veri + " <-> ");
+            temp = temp.sonraki;
+        }
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        BasaEkle(10);
+        BasaEkle(20);
+        BasaEkle(30);
+        Listele();
+    }
+}
+
+using System.Net.Sockets;
+
+//SONA EKLEME
+
+using System;
+
+namespace IkıYonluBagliListe
+{
+    class Node
+    {
+        public int veri;
+        public Node onceki;
+        public Node sonraki;
+    }
+
+    class Program
+    {
+        static Node bas = null;
+
+        static void SonaEkle(int sayi)
+        {
+            Node yeni = new Node();
+            yeni.veri = sayi;
+            yeni.sonraki = null;
+
+            if (bas == null)
+            {
+                yeni.onceki = null;
+                bas = yeni;
+            }
+            else
+            {
+                Node temp = bas;
+                while (temp.sonraki != null)
+                    temp = temp.sonraki;
+
+                temp.sonraki = yeni;
+                yeni.onceki = temp;
+            }
+        }
+
+        static void Listele()
+        {
+            Node temp = bas;
+            while (temp != null)
+            {
+                Console.Write(temp.veri + " <-> ");
+                temp = temp.sonraki;
+            }
+            Console.WriteLine("null");
+        }
+
+        static void Main(string[] args)
+        {
+            SonaEkle(10);
+            SonaEkle(20);
+            SonaEkle(30);
+            Listele(); // 
+        }
+    }
+}
+
+
+//ARAYA HERHANGİ BİR VERİDEN SONRA EKLEME
+
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void ArayaEkle(int hedef, int yeniVeri)
+    {
+        Node temp = bas;
+        while (temp != null && temp.veri != hedef)
+            temp = temp.sonraki;
+
+        if (temp == null) return;
+
+        Node yeni = new Node { veri = yeniVeri, onceki = temp, sonraki = temp.sonraki };
+        if (temp.sonraki != null) temp.sonraki.onceki = yeni;
+        temp.sonraki = yeni;
+    }
+
+    static void SonaEkle(int veri)
+    {
+        Node yeni = new Node { veri = veri };
+        if (bas == null) bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null) temp = temp.sonraki;
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void Listele()
+    {
+        for (Node t = bas; t != null; t = t.sonraki)
+            Console.Write(t.veri + " <-> ");
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+        ArayaEkle(20, 25); // 20'den sonra 25 eklenir
+        Listele(); // 
+    }
+}
+
+
+//ARAYA HERHANGİ BİR VERİDEN ÖNCE EKLEME
+
+class Node
+{
+    public int veri;
+    public Node onceki;
+    public Node sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int sayi)
+    {
+        Node yeni = new Node();
+        yeni.veri = sayi;
+
+        if (bas == null)
+        {
+            bas = yeni;
+        }
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void EkleOncesine(int hedefVeri, int yeniVeri)
+    {
+        Node temp = bas;
+
+        while (temp != null && temp.veri != hedefVeri)
+            temp = temp.sonraki;
+
+        if (temp == null)
+        {
+            Console.WriteLine("Veri bulunamadı.");
+            return;
+        }
+
+        Node yeni = new Node();
+        yeni.veri = yeniVeri;
+
+        yeni.sonraki = temp;
+        yeni.onceki = temp.onceki;
+
+        if (temp.onceki != null)
+            temp.onceki.sonraki = yeni;
+        else
+            bas = yeni;
+
+        temp.onceki = yeni;
+    }
+
+    static void Listele()
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            Console.Write(temp.veri + " <-> ");
+            temp = temp.sonraki;
+        }
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+
+        EkleOncesine(20, 15); // 20'den önce 15 eklenir
+
+        Listele(); // 
+    }
+}
+
+
+//BAŞTAN SİLME
+
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int sayi)
+    {
+        Node yeni = new Node();
+        yeni.veri = sayi;
+
+        if (bas == null)
+            bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void BastanSil()
+    {
+        if (bas == null) return;
+
+        bas = bas.sonraki;
+        if (bas != null)
+            bas.onceki = null;
+    }
+
+    static void Listele()
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            Console.Write(temp.veri + " <-> ");
+            temp = temp.sonraki;
+        }
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+
+        BastanSil();
+
+        Listele();
+    }
+}
+
+
+//SONDAN SİLME
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int veri)
+    {
+        Node yeni = new Node();
+        yeni.veri = veri;
+
+        if (bas == null)
+            bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void SondanSil()
+    {
+        if (bas == null) return;
+
+        if (bas.sonraki == null)
+        {
+            bas = null;
+            return;
+        }
+
+        Node temp = bas;
+        while (temp.sonraki != null)
+            temp = temp.sonraki;
+
+        temp.onceki.sonraki = null;
+    }
+
+    static void Listele()
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            Console.Write(temp.veri + " <-> ");
+            temp = temp.sonraki;
+        }
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+
+        SondanSil();
+
+        Listele();
+    }
+}
+
+
+//ARADAN SİLME
+
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int veri)
+    {
+        Node yeni = new Node();
+        yeni.veri = veri;
+
+        if (bas == null)
+            bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void VeriyiSil(int silinecekVeri)
+    {
+        Node temp = bas;
+
+        while (temp != null && temp.veri != silinecekVeri)
+            temp = temp.sonraki;
+
+        if (temp == null) return; // Veri yoksa çık
+
+        if (temp.onceki != null)
+            temp.onceki.sonraki = temp.sonraki;
+        else
+            bas = temp.sonraki;
+
+        if (temp.sonraki != null)
+            temp.sonraki.onceki = temp.onceki;
+    }
+
+    static void Listele()
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            Console.Write(temp.veri + " <-> ");
+            temp = temp.sonraki;
+        }
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+        SonaEkle(40);
+
+        VeriyiSil(30); // 30 silinir
+
+        Listele(); // Çıktı: 10 <-> 20 <-> 40 <-> null
+    }
+}
+
+
+
+//ARAMA
+
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int veri)
+    {
+        Node yeni = new Node();
+        yeni.veri = veri;
+
+        if (bas == null)
+            bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void Ara(int aranan)
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            if (temp.veri == aranan)
+            {
+                Console.WriteLine(aranan + " bulundu.");
+                return;
+            }
+            temp = temp.sonraki;
+        }
+        Console.WriteLine(aranan + " bulunamadı.");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+
+        Ara(20); // Çıktı: 20 bulundu.
+        Ara(40); // Çıktı: 40 bulunamadı.
+    }
+}
+
+
+//LİSTELEM
+
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int veri)
+    {
+        Node yeni = new Node();
+        yeni.veri = veri;
+
+        if (bas == null)
+            bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void Listele()
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            Console.Write(temp.veri + " <-> ");
+            temp = temp.sonraki;
+        }
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+
+        Listele(); // 
+    }
+}
+
+//TÜMÜNÜ SİLME
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int veri)
+    {
+        Node yeni = new Node();
+        yeni.veri = veri;
+
+        if (bas == null)
+            bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static void TumunuSil()
+    {
+        bas = null; // Listeyi tamamen boş yapar
+    }
+
+    static void Listele()
+    {
+        Node temp = bas;
+        while (temp != null)
+        {
+            Console.Write(temp.veri + " <-> ");
+            temp = temp.sonraki;
+        }
+        Console.WriteLine("null");
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+
+        TumunuSil(); // Tüm düğümler silinir
+
+        Listele();   // Çıktı: null
+    }
+}
+
+
+//Tüm linked listi bir diziye atma
+
+class Node
+{
+    public int veri;
+    public Node onceki, sonraki;
+}
+
+class Program
+{
+    static Node bas = null;
+
+    static void SonaEkle(int veri)
+    {
+        Node yeni = new Node();
+        yeni.veri = veri;
+
+        if (bas == null)
+            bas = yeni;
+        else
+        {
+            Node temp = bas;
+            while (temp.sonraki != null)
+                temp = temp.sonraki;
+
+            temp.sonraki = yeni;
+            yeni.onceki = temp;
+        }
+    }
+
+    static int[] ListeyiDiziyeAktar()
+    {
+        // Eleman sayısını bul
+        int sayac = 0;
+        Node temp = bas;
+        while (temp != null)
+        {
+            sayac++;
+            temp = temp.sonraki;
+        }
+
+        // Dizi oluştur ve verileri ekle
+        int[] dizi = new int[sayac];
+        temp = bas;
+        for (int i = 0; i < sayac; i++)
+        {
+            dizi[i] = temp.veri;
+            temp = temp.sonraki;
+        }
+
+        return dizi;
+    }
+
+    static void Main()
+    {
+        SonaEkle(10);
+        SonaEkle(20);
+        SonaEkle(30);
+
+        int[] dizi = ListeyiDiziyeAktar();
+
+        foreach (int eleman in dizi)
+            Console.Write(eleman + " "); 
+    }
+}
+
