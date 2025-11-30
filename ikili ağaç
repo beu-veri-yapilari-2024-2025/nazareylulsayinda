@@ -1,0 +1,67 @@
+class Node
+{
+    public int veri;          
+    public Node sol, sag;     
+    public Node(int deger) { veri = deger; }
+}
+
+class Program
+{
+    // Preorder: Kök → Sol → Sağ
+    static void Preorder(Node n)
+    {
+        if (n == null) return;
+        Console.Write(n.veri + " ");
+        Preorder(n.sol);
+        Preorder(n.sag);
+    }
+
+    // Inorder: Sol → Kök → Sağ
+    static void Inorder(Node n)
+    {
+        if (n == null) return;
+        Inorder(n.sol);
+        Console.Write(n.veri + " ");
+        Inorder(n.sag);
+    }
+
+    // Postorder: Sol → Sağ → Kök
+    static void Postorder(Node n)
+    {
+        if (n == null) return;
+        Postorder(n.sol);
+        Postorder(n.sag);
+        Console.Write(n.veri + " ");
+    }
+
+    // Level-order: Seviyeler halinde sırayla (Kuyruk kullanılır)
+    static void LevelOrder(Node n)
+    {
+        if (n == null) return;
+        Queue<Node> kuyruk = new Queue<Node>();
+        kuyruk.Enqueue(n);
+        while (kuyruk.Count > 0)
+        {
+            Node anlik = kuyruk.Dequeue();
+            Console.Write(anlik.veri + " ");
+            if (anlik.sol != null) kuyruk.Enqueue(anlik.sol);
+            if (anlik.sag != null) kuyruk.Enqueue(anlik.sag);
+        }
+    }
+
+    static void Main()
+    {
+        // Ağacı kuruyoruz
+        Node kok = new Node(10);
+        kok.sol = new Node(6);
+        kok.sag = new Node(15);
+        kok.sol.sol = new Node(3);
+        kok.sol.sag = new Node(8);
+        kok.sag.sag = new Node(20);
+
+        Console.Write("Preorder: "); Preorder(kok); Console.WriteLine();
+        Console.Write("Inorder: "); Inorder(kok); Console.WriteLine();
+        Console.Write("Postorder: "); Postorder(kok); Console.WriteLine();
+        Console.Write("Level-order: "); LevelOrder(kok); Console.WriteLine();
+    }
+}
