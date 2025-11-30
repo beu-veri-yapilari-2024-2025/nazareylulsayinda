@@ -1,0 +1,92 @@
+namespace BankaKuyruguOdevi
+{
+    class Program
+    {
+        static Queue<string> diziOncelikli = new Queue<string>();
+        static Queue<string> diziNormal = new Queue<string>();
+        static Queue<string> diziDusuk = new Queue<string>();
+
+        static LinkedList<string> listOncelikli = new LinkedList<string>();
+        static LinkedList<string> listNormal = new LinkedList<string>();
+        static LinkedList<string> listDusuk = new LinkedList<string>();
+
+      
+        static void MusteriEkle(string ad, int oncelik)
+        {
+            string musteri = $"{ad} (P{oncelik})";
+
+            
+            if (oncelik == 1) diziOncelikli.Enqueue(musteri);
+            else if (oncelik == 2) diziNormal.Enqueue(musteri);
+            else diziDusuk.Enqueue(musteri);
+
+            
+            if (oncelik == 1) listOncelikli.AddLast(musteri);
+            else if (oncelik == 2) listNormal.AddLast(musteri);
+            else listDusuk.AddLast(musteri);
+        }
+
+        
+        static void MusteriCagir()
+        {
+            Console.WriteLine("📤 Dizi Kuyruğu:");
+            if (diziOncelikli.Count > 0) Console.WriteLine($"  → {diziOncelikli.Dequeue()}");
+            else if (diziNormal.Count > 0) Console.WriteLine($"  → {diziNormal.Dequeue()}");
+            else if (diziDusuk.Count > 0) Console.WriteLine($"  → {diziDusuk.Dequeue()}");
+            else Console.WriteLine("  → Kuyruk boş.");
+
+            Console.WriteLine("📤 LinkedList Kuyruğu:");
+            if (listOncelikli.Count > 0)
+            {
+                Console.WriteLine($"  → {listOncelikli.First.Value}");
+                listOncelikli.RemoveFirst();
+            }
+            else if (listNormal.Count > 0)
+            {
+                Console.WriteLine($"  → {listNormal.First.Value}");
+                listNormal.RemoveFirst();
+            }
+            else if (listDusuk.Count > 0)
+            {
+                Console.WriteLine($"  → {listDusuk.First.Value}");
+                listDusuk.RemoveFirst();
+            }
+            else Console.WriteLine("  → Kuyruk boş.");
+        }
+
+        
+        static void KuyruklariGoster()
+        {
+            Console.WriteLine("\n📋 Dizi Kuyrukları:");
+            Console.WriteLine("  Öncelikli: " + string.Join(", ", diziOncelikli));
+            Console.WriteLine("  Normal   : " + string.Join(", ", diziNormal));
+            Console.WriteLine("  Düşük    : " + string.Join(", ", diziDusuk));
+
+            Console.WriteLine("\n📋 LinkedList Kuyrukları:");
+            Console.WriteLine("  Öncelikli: " + string.Join(", ", listOncelikli));
+            Console.WriteLine("  Normal   : " + string.Join(", ", listNormal));
+            Console.WriteLine("  Düşük    : " + string.Join(", ", listDusuk));
+        }
+
+        static void Main(string[] args)
+        {
+            
+            MusteriEkle("Ahmet", 2);   
+            MusteriEkle("Zeynep", 1);  
+            MusteriEkle("Mehmet", 3);  
+            MusteriEkle("Ayşe", 1);    
+            MusteriEkle("Ali", 2);     
+
+            KuyruklariGoster();
+
+            
+            Console.WriteLine("\n🔽 Müşteri Çağırma İşlemleri:");
+            MusteriCagir();
+            MusteriCagir();
+
+            
+            KuyruklariGoster();
+        }
+    }
+}
+
